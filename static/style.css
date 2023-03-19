@@ -7,11 +7,14 @@
   font-size: 16px;
   background-color: #32333b;
   color: #f5f5f5;
-
 }
 
 h1,h2 {
   font-size: 20px;
+}
+
+p {
+  margin-right: 5px;
 }
 
 button,
@@ -67,12 +70,13 @@ b {
 
 .medlem_info {
   height: 20px;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    /* margin: 11px; */
-    display: flex;
-    align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  /* margin: 11px; */
+  display: flex;
+  align-items: center;
+  margin: 5px;
 }
 
 .active_member {
@@ -130,12 +134,14 @@ form input[type=checkbox] {
 nav {
   background-color: #333;
   color: white;
-  height: 50px;
+  height: auto;
   display: flex;
   align-items: center;
+  margin-right: 5px;
 }
 
 nav ul {
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -143,11 +149,12 @@ nav ul {
   justify-content: space-between;
   width: 100%;
   max-width: 800px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 nav li {
   margin: 0 10px;
+  margin-top: 10px;
 }
 
 nav a {
@@ -165,7 +172,7 @@ nav a:hover {
 
 .navbar-logo img {
   width: auto;
-  height: 40px;
+  height: 42px;
 } 
 
 .navbar-logo:hover{
@@ -175,7 +182,6 @@ nav a:hover {
 
 
 ul.admin_overview li a {
-  /* color: #666; */
   text-decoration: none;
 }
 
