@@ -127,10 +127,11 @@ def me():
     if session['id']:
         medlem = Users.query.filter_by(user_id=session['id']).first()
         if request.method == 'POST':
-            postnummer = request.form['postnummer']
             modtag_mails = True if request.form.getlist("modtag_mails") else False
             membership = True if request.form.getlist("medlem") else False
-            medlem.postnummer = postnummer
+            postnummer = request.form['postnummer']
+            if postnummer:
+                medlem.postnummer = int(postnummer)
             medlem.modtag_mails = modtag_mails
             medlem.medlem = membership
             db.session.commit()
