@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>Her kan du se alle siderne som du kan tilgå som administrator.</p>
+<ul class="admin_overview">
+    <li><a class="admin_overview" href="/admin/users">Aktive medlemmer</a></li>
+    <li><a class="admin_overview" href="/admin/admins">Oversigt over administrator adgang</a></li>
+    <li><a class="admin_overview" href="/admin/payments">Eksterne kontingentbetalinger</a></li>
+    <li><a class="admin_overview" href="/admin/update_last_competed">Knap til at opdatere sidste deltagelse</a></li>
+</ul>
+
+
+{% endblock %}

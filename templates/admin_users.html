@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>All Users</h1>
+  <a class="admin_click" href="{{ url_for('new_user') }}">Add New User</a>
+  <p>Der er ialt {{antal}} aktive medlemmer.</p>
+  <table>
+    <tr>
+      <th>User ID</th>
+      <th>Name</th>
+      <th>WCA ID</th>
+      <th>Email</th>
+      <th>Postnummer</th>
+      <th>Membership Status</th>
+      <th>Sidste comp</th>
+      <th>Dummy?</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.user_id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.wca_id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.postnummer }}</td>
+      <td>{{ "Yes" if user.medlem else "No" }}</td>
+      <td>{{ user.sidste_comp.date() if user.sidste_comp else "blank"}}</td>
+      <td>{{ "No" if user.first_login else "Yes"}}</td>
+      <td><a class="admin_click" href="{{ url_for('edit_user_admin', userid=user.user_id) }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

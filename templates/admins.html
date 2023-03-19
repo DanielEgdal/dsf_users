@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Current Admins:</h2>
+  <table>
+    <tr>
+      <th>User ID</th>
+      <th>Name</th>
+      <th>WCA ID</th>
+    </tr>
+    {% for admin in admins %}
+    <tr>
+      <td>{{ admin.user_id }}</td>
+      <td>{{ admin.user.name }}</td>
+      <td>{{ admin.user.wca_id }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  
+  <br><br>
+  
+  <h2>Add Admin:</h2>
+  <form action="{{ url_for('modify_admin') }}" method="POST">
+    <label for="user_id">User ID:</label>
+    <input type="text" id="user_id" name="user_id"><br>
+    
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

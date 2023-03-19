@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p> Hej, {{ user_name }}. Dette er den information vi har om din konto. Du kan sende ændringer ind til visse af felterne:</p>
+    {% if activity[0] and activity[1] %}
+    <p class="medlem_info active_member"> Du er aktivt medlem af DSF.</p>
+    {% elif (not activity[0]) and activity[1] %}
+    <p class="medlem_info inactive_member">Dit medlemskab hos DSF er inaktivt givet manglende kontingent.</p>
+    {% else %}
+    <p class="medlem_info non_member"> Du er ikke medlem af DSF.</p>
+    {% endif %}
+
+    {% include "account.html" %}
+
+    
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DSFs Medlemside</title>
+    <link rel="shortcut icon" href="{{url_for('static',filename='logo.png')}}">
+    <link rel="stylesheet"  type="text/css" href="{{url_for('.static', filename='style.css')}}">
+    {% block extrahead %} {% endblock %}
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="navbar-logo"><img src="{{url_for('static',filename='logo.png')}}">
+        <ul>
+            {% if user_name %}
+          <li><a href="/me">Min konto</a></li>
+          <li><a href="/logout">Logud</a></li>
+          {% endif %}
+          {% if admin %}
+          <li><a href="/admin">Administrator</a></li>
+          {% endif %}
+          <li><a href="http://danskspeedcubingforening.dk/nyttig-info/om-dsf/">Kontakt DSF</a></li>
+        </ul>
+    </nav>
+    <hr>
+
+    {% block content %} {% endblock %}
+    
+    
+</body>
+</html>

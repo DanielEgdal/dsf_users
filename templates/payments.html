@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>All Payments</h1>
+<a class="admin_click" href="{{ url_for('add_payment') }}">Add Payment</a>
+<table>
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Name</th>
+      <th>Payment Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for payment in payments %}
+    <tr>
+      <td>{{ payment.user_id }}</td>
+      <td>{{ payment.user.name }}</td>
+      <td>{{ payment.payment_date.date() }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

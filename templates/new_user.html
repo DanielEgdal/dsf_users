@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Add User</h1>
+  <form method="post">
+    <label>WCA ID:</label>
+    <input type="text" name="wca_id"><br>
+
+    <label>WCA Bruger id:</label>
+    <input type="text" name="user_id" placeholder="Udfyld kun det her hvis personen ikke har deltaget"><br>
+
+    <label>Postnummer:</label>
+    <input type="text" name="postnummer"><br>
+
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

@@ -1,0 +1,5 @@
+instance/*
+secret_key.py
+__pycache__/*
+medlemmer.sqlite3
+members_extern.tsv

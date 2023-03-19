@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Payment</h1>
+<form method="POST" action="{{ url_for('add_payment') }}">
+    <label for="user_id">User ID:</label>
+    <input type="text" name="user_id" required><br><br>
+    <label for="payment_date">Betalingsdato:</label>
+    <input type="datetime-local" name="payment_date" required><br><br>
+    <p class="form_info">År måned dato</p>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
