@@ -10,7 +10,7 @@ from WCIFManip import *
 from last_competed import *
 from models import *
 
-from secret_key import secret_key
+from secret_key import secret_key,mysql_code
 
 app = Flask(__name__)
 
@@ -18,7 +18,8 @@ app.config.update(
     SECRET_KEY = secret_key,
     SESSION_COOKIE_SECURE = True,
     PERMANENT_SESSION_LIFETIME = 7200,
-    SQLALCHEMY_DATABASE_URI = "sqlite:///medlemmer.sqlite3",
+    # SQLALCHEMY_DATABASE_URI = "sqlite:///medlemmer.sqlite3",
+    SQLALCHEMY_DATABASE_URI = mysql_code,
     SQLAlCHEMY_TRACK_MODIFICATIONS = False
 )
 
@@ -96,7 +97,7 @@ def process_token():
         medlem = Users.query.filter_by(user_id=user_id)
         person = medlem.first()
         if person:
-            first_time_medlem = medlem.filter(Users.first_login!=None).first()
+            first_time_medlem = medlem.filter(Users.first_login==None).first()
             if first_time_medlem:
                 first_time_medlem.email = user_mail
                 first_time_medlem.first_login = datetime.now()
@@ -325,5 +326,5 @@ def add_payment():
 # app.run(debug=True)
 
 if __name__ == '__main__':
-    app.run(port=5000,debug=True)
+    app.run(port=5000,debug=False)
 
