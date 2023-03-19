@@ -89,7 +89,6 @@ def process_token():
     me = get_me(session['token'])
     if me.status_code == 200:
         cont = json.loads(me.content)
-        # print(cont)
         user_name = cont['me']['name']
         user_id = int(cont['me']['id'])
         user_wcaid = cont['me']['wca_id']
