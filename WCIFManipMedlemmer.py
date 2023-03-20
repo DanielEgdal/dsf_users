@@ -19,7 +19,7 @@ def get_data_from_wcaid(wcaid):
 
 def get_me(header):
     return requests.get("https://www.worldcubeassociation.org/api/v0/me",headers=header)
-    
+
 def get_coming_comps(header,userid):
     fromDate = (Timestamp.now() - timedelta(days=5))._date_repr
     comps_json = json.loads(requests.get(f"https://www.worldcubeassociation.org/api/v0/competitions?managed_by_me=true&start={fromDate}",headers=header).content)

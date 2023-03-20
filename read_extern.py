@@ -1,5 +1,5 @@
 import pandas as pd
-from WCIFManip import *
+from WCIFManipMedlemmer import *
 
 def check_person(name,wcaid):
     fil = pd.read_csv("members_extern.tsv",delimiter='\t')

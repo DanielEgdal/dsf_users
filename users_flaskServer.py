@@ -6,7 +6,7 @@ from functools import wraps
 from datetime import datetime,timedelta
 from read_extern import *
 from markupsafe import escape
-from WCIFManip import *
+from WCIFManipMedlemmer import *
 from last_competed import *
 from models import *
 
@@ -70,6 +70,10 @@ def startPage():
         return redirect(url_for("me"))
     return render_template('index.html',user_name=session['name'],admin=is_admin())
 
+@app.route("/localhost")
+def localhost_login():
+    return redirect("https://www.worldcubeassociation.org/oauth/authorize?client_id=-BowqxQ4-RGEk8XdUGFb41AkWX_k1XSGiVJDDfm7k9M&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fshow_token&response_type=token&scope=manage_competitions+public+email")
+
 @app.route('/logout',methods=['GET','POST'])
 def logout():
     keys = [key for key in session.keys()]
@@ -120,7 +124,7 @@ def process_token():
         
         session['name'] = user_name
         session['id'] = user_id
-    return "Redirect should be happening to /me. Otherwise do it manually."
+    return "Du bliver omstillet til din konto."
 
 @app.route('/me', methods = ['GET','POST'])
 def me():
@@ -129,9 +133,14 @@ def me():
         if request.method == 'POST':
             modtag_mails = True if request.form.getlist("modtag_mails") else False
             membership = True if request.form.getlist("medlem") else False
-            postnummer = request.form['postnummer']
+            postnummer = escape(request.form['postnummer'])
             if postnummer:
-                medlem.postnummer = int(postnummer)
+                regex = r'^[\d]{4}$'
+                match = re.search(regex, postnummer)
+                if match:
+                    medlem.postnummer = int(postnummer)
+                else:
+                    return "Du skrev et ugyldigt postnummer"
             medlem.modtag_mails = modtag_mails
             medlem.medlem = membership
             db.session.commit()
@@ -232,10 +241,17 @@ def edit_user_admin(userid):
     if not medlem:
         return "Invalid user id"
     if request.method == 'POST':
-        postnummer = request.form['postnummer']
         modtag_mails = True if request.form.getlist("modtag_mails") else False
         membership = True if request.form.getlist("medlem") else False
-        medlem.postnummer = postnummer
+
+        postnummer = escape(request.form['postnummer'])
+        if postnummer:
+            regex = r'^[\d]{4}$'
+            match = re.search(regex, postnummer)
+            if match:
+                medlem.postnummer = int(postnummer)
+            else:
+                return "Du skrev et ugyldigt postnummer"
         medlem.modtag_mails = modtag_mails
         medlem.medlem = membership
         db.session.commit()

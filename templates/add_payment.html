@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Add Payment</h1>
+<h1>Tilføj ekstern betaling</h1>
 <form method="POST" action="{{ url_for('add_payment') }}">
     <label for="user_id">User ID:</label>
     <input type="text" name="user_id" required><br><br>

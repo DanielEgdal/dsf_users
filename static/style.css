@@ -85,6 +85,7 @@ b {
 
 .inactive_member{
   background-color: yellow;
+  color: #333;
 }
 
 .non_member{
