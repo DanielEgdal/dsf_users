@@ -1,8 +1,8 @@
 <form method="POST" action="{{ url_for('edit_user_admin', userid=user.user_id) if 'admin' in request.path else url_for('me') }}">
-    <label for="name">Name:</label>
+    <label for="name">Navn:</label>
     <input type="text" id="name" name="name" value="{{ user.name }}" disabled   ><br>
 
-    <label for="email">Email:</label>
+    <label for="email">E-mail:</label>
     <input type="email" id="email" name="email" value="{{ user.email }}" disabled><br>
 
     <label for="wcaid">WCA ID:</label>
@@ -21,5 +21,5 @@
     <label for="sidste_comp">Sidste danske konkurrence:</label>
     <input type="text" id="sidste_comp" name="sidste_comp" value="{{ user.sidste_comp.date() }}" disabled><br>
 
-    <input type="submit" value="Save Changes">
+    <input type="submit" value="Gem ændringer">
     </form>

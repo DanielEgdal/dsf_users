@@ -85,6 +85,7 @@ def logout():
 def show_token():
     return render_template('show_token.html',user_name=session['name'])
 
+from time import time
 @app.route('/process_token',methods=['POST'])
 def process_token():
     access_token_temp = escape(request.form['access_token'])
@@ -105,8 +106,12 @@ def process_token():
                 first_time_medlem.email = user_mail
                 first_time_medlem.first_login = datetime.now()
                 db.session.commit()
-            else:
-                pass # This is a returner, don't do anything in the db
+            else: # Returner to the website
+                if person.email != user_mail or person.wca_id != user_wcaid:
+                    print("You didn't match",time()-s)
+                    person.email = user_mail
+                    person.wca_id = user_wcaid
+                    db.session.commit()
         else: # This is someone who is not currently a member and hasn't been seen in the DB
             user = Users(
                 user_id,
