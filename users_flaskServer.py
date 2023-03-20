@@ -85,7 +85,6 @@ def logout():
 def show_token():
     return render_template('show_token.html',user_name=session['name'])
 
-from time import time
 @app.route('/process_token',methods=['POST'])
 def process_token():
     access_token_temp = escape(request.form['access_token'])
