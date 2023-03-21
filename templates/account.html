@@ -9,7 +9,7 @@
     <input type="text" id="wcaid" name="wcaid" value="{{ user.wca_id }}" disabled><br>
 
     <label for="postnummer">Postnummer:</label>
-    <input type="text" id="postnummer" name="postnummer" value="{{ user.postnummer }}"><br>
+    <input type="text" id="postnummer" name="postnummer" value="{{ user.postnummer if user.postnummer }}"><br>
 
     <label for="medlem">Medlemskab:</label>
     <input type="checkbox" id="medlem" name="medlem" {% if user.medlem %}checked{% endif %}><br>
