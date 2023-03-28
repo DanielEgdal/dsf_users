@@ -279,7 +279,7 @@ def new_user():
             else:
                 return "Either the wcaid or userid must be filled out."
         else:
-            status, (user_id, name, wcaid) =  get_data_from_wcaid(request.form['user_id'])
+            status, (user_id, name, wcaid) =  get_data_from_wcaid(request.form['wca_id'])
         if not postnummer:
             postnummer = None
         existing = Users.query.filter_by(user_id = user_id).first()
