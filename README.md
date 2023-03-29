@@ -1,6 +1,5 @@
 # DSF Users
 
-Todo:
+Postnummer geojson: https://github.com/mortenscheel/postnumre-geojson-clipped
 
-* Export option
-* Migrate to more stable db
+Todo:

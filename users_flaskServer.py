@@ -4,6 +4,7 @@ from sqlalchemy import text, or_,and_
 import re
 from functools import wraps
 from datetime import datetime,timedelta
+from map_medlemmer import make_map
 from read_extern import *
 from markupsafe import escape
 from WCIFManipMedlemmer import *
@@ -219,20 +220,30 @@ def import_users(): # Unused
     db.session.commit()
     return redirect(url_for('admin_users'))
 
-@app.route('/admin/users')
-@admin_required
-def admin_users():
-    # users = Users.query.all()
+def get_active_members():
     fourteen_months_ago = datetime.now() - timedelta(days=14*30)
 
-    # Filter users based on their `sidste_comp` attribute
-    # users = Users.query.filter(Users.sidste_comp >= fourteen_months_ago).all()
     active_users_and_payments = Users.query.join(External_payments, Users.user_id == External_payments.user_id, isouter=True)\
                 .filter(or_(Users.sidste_comp >= fourteen_months_ago, 
                             External_payments.payment_date >= fourteen_months_ago))
     
     users = active_users_and_payments.filter(Users.medlem==True).all()
+    return users
+
+@app.route('/admin/users')
+@admin_required
+def admin_users():
+    # users = Users.query.all()
+    users = get_active_members()
     return render_template('admin_users.html', users=users,antal=len(users),user_name=session['name'],admin=True)
+
+@app.route('/admin/inaktive_users')
+@admin_required
+def inactive_users():
+    all_users = Users.query.all()
+    users = get_active_members()
+    inactive_users = [user for user in all_users if user not in users]
+    return render_template('inaktive_users.html', users=inactive_users,antal=len(inactive_users),user_name=session['name'],admin=True)
 
 @app.route('/admin/users/<userid>',methods=['GET', 'POST'])
 @admin_required
@@ -341,6 +352,13 @@ def add_payment():
     else:
         # Render a form for adding a payment
         return render_template('add_payment.html',user_name=session['name'],admin=True)
+
+@app.route("/admin/user_map")
+@admin_required
+def make_admin_map():
+    users = get_active_members()
+    map_ = make_map(users)._repr_html_()
+    return render_template("medlem_map.html",map_=map_)
 
 # app.run(host=host,port=port)
 # app.run(debug=True)

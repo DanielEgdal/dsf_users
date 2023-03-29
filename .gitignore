@@ -6,3 +6,5 @@ members_extern.tsv
 logging_notes.txt
 maria_db.txt
 app.log
+backups/*
+postnumre-clipped-simplified.geojson

@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Alle aktive medlemmer</h1>
-  <a class="admin_click" href="{{ url_for('new_user') }}">Tilføj ny bruger</a>
-  <p>Der er ialt {{antal}} aktive medlemmer.</p>
+  <h1>Ikke-medlemmer på siden</h1>
+  <p>Dette er alle de brugere på hjemmesiden som enten ikke er medlem eller ikke har et gyldigt medlemsskab.</p>
   <table>
     <tr>
       <th>User ID</th>
