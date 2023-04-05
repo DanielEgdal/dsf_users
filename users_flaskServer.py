@@ -108,7 +108,6 @@ def process_token():
                 db.session.commit()
             else: # Returner to the website
                 if person.email != user_mail or person.wca_id != user_wcaid:
-                    print("You didn't match",time()-s)
                     person.email = user_mail
                     person.wca_id = user_wcaid
                     db.session.commit()
@@ -358,7 +357,7 @@ def add_payment():
 def make_admin_map():
     users = get_active_members()
     map_ = make_map(users)._repr_html_()
-    return render_template("medlem_map.html",map_=map_)
+    return render_template("medlem_map.html",user_name=session['name'],map_=map_,admin=True)
 
 # app.run(host=host,port=port)
 # app.run(debug=True)
