@@ -167,9 +167,24 @@ def update_last_competed():
     df = get_df()
     users = Users.query.all()
     for user in users:
-        code, last_comp = get_last_competed(df,user.wca_id)
-        if code == 200:
-            user.sidste_comp = last_comp
+        if user.wca_id:
+            code, last_comp = get_last_competed(df,user.wca_id)
+            if code == 200:
+                user.sidste_comp = last_comp
+    db.session.commit()
+    return redirect(url_for('admin_users'))
+
+@admin_required
+@app.route("/admin/reconnectID/<int:personid>")
+def recheck_wcaid(personid): # DANIEL
+    medlem = Users.query.filter_by(user_id=personid).first()
+    if not medlem:
+        return "Personen blev ikke fundet i databasen."
+    response, (idd,name,wcaid) = get_data_from_wcaid(medlem.user_id)
+    if wcaid:
+        medlem.wca_id = wcaid
+    else:
+        return "Operation failed. The person probably doesn't have WCA ID connected on wca"
     db.session.commit()
     return redirect(url_for('admin_users'))
 
@@ -363,5 +378,5 @@ def make_admin_map():
 # app.run(debug=True)
 
 if __name__ == '__main__':
-    app.run(port=5000,debug=False)
+    app.run(port=5000,debug=True)
 
