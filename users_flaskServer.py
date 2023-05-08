@@ -176,7 +176,7 @@ def update_last_competed():
 
 @admin_required
 @app.route("/admin/reconnectID/<int:personid>")
-def recheck_wcaid(personid): # DANIEL
+def recheck_wcaid(personid):
     medlem = Users.query.filter_by(user_id=personid).first()
     if not medlem:
         return "Personen blev ikke fundet i databasen."
@@ -186,7 +186,7 @@ def recheck_wcaid(personid): # DANIEL
     else:
         return "Operation failed. The person probably doesn't have WCA ID connected on wca"
     db.session.commit()
-    return redirect(url_for('admin_users'))
+    return redirect(url_for("edit_user_admin",userid=personid))
 
 # @app.route("/admin/import")
 def import_users(): # Unused
