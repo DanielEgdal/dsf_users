@@ -35,7 +35,10 @@ def get_last_competed(df,wcaid):
 
 def active_member(user:Users):
     fourteen_months_ago = datetime.now() - timedelta(days=14*30)
-    eligible = user.sidste_comp >= fourteen_months_ago
+    if user.sidste_comp:
+        eligible = user.sidste_comp >= fourteen_months_ago
+    else:
+        eligible = False
     wants_to = user.medlem
 
     payment = External_payments.query.filter_by(user_id=user.user_id).order_by(External_payments.payment_date.desc()).first()
