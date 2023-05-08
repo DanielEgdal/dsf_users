@@ -19,7 +19,7 @@
     <input type="checkbox" id="modtag_mails" name="modtag_mails" {% if user.modtag_mails %}checked{% endif %}><br>
 
     <label for="sidste_comp">Sidste danske konkurrence:</label>
-    <input type="text" id="sidste_comp" name="sidste_comp" value="{{ user.sidste_comp.date() }}" disabled><br>
+    <input type="text" id="sidste_comp" name="sidste_comp" value="{{ user.sidste_comp.date() if user.sidste_comp }}" disabled><br>
 
     <input type="submit" value="Gem ændringer">
     </form>
