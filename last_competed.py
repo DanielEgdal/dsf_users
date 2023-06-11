@@ -29,8 +29,11 @@ def get_df():
 
 def get_last_competed(df,wcaid):
     if not pd.isnull(wcaid):
-        competed = df[df['WCA ID']==wcaid]['Sidste comp'].iloc[0].to_pydatetime()
-        return 200,competed
+        try:
+            competed = df[df['WCA ID']==wcaid]['Sidste comp'].iloc[0].to_pydatetime()
+            return 200,competed
+        except IndexError: # If they have a WCA ID, but haven't competed in Denmark
+            return 404,'blank'
     return 404,"blank"
 
 def active_member(user:Users):
