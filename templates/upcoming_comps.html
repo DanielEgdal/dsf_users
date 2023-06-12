@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <p>Vælg en konkurrence nedenfor. Derefter kommer du ind på en side hvor du kan se alle medlemmer tilmeldt konkurrencen som ikke har angivet postnummer.</p>
+
+    <p>
+        <ul class="my_comps">
+        {% for comp in comps%}
+            <a href="/admin/comps/manglende_postnummer/{{comp[1]}}">{{comp[0]}}</a>
+        {% endfor %}
+        </ul>
+    </p>
+{% endblock %}

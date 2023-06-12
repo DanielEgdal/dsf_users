@@ -175,6 +175,21 @@ def update_last_competed():
     return redirect(url_for('admin_users'))
 
 @admin_required
+@app.route("/admin/comps")
+def mangler_postnummer_choose_comp():
+    comps = get_comming_danish_comps()
+    return render_template('upcoming_comps.html',comps=comps,user_name=session['name'],admin=True)
+
+@admin_required
+@app.route("/admin/comps/manglende_postnummer/<compid>")
+def mangler_postnummer(compid):
+    """Find all the competitors (who are members) for a comp which have missing membership details"""
+    competitors = set(get_competitors_wcif(compid))
+    users = Users.query.filter(Users.user_id.in_(competitors), Users.postnummer.is_(None), Users.medlem.is_(True)).all()
+    
+    return render_template('comp_manglede_oplysninger.html',users=users,compid=compid,user_name=session['name'],admin=True)
+
+@admin_required
 @app.route("/admin/reconnectID/<int:personid>")
 def recheck_wcaid(personid):
     medlem = Users.query.filter_by(user_id=personid).first()

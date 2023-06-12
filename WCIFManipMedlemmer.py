@@ -45,3 +45,15 @@ def getWcif(id,header):
 def getWCIFPublic(id):
     wcif = requests.get(f"https://www.worldcubeassociation.org/api/v0/competitions/{id}/wcif/public")
     return json.loads(wcif.content),wcif.status_code
+
+def get_competitors_wcif(id):
+    wcif, _ = getWCIFPublic(id)
+    competitors = [person['wcaUserId'] for person in wcif['persons']]
+    return competitors
+
+def get_comming_danish_comps():
+    from_date = (Timestamp.now() - timedelta(days=5))._date_repr
+    comps = json.loads(requests.get(f"https://www.worldcubeassociation.org/api/v0/competitions?country_iso2=DK&start={from_date}").content)
+    comps_short = [(comp['name'],comp['id'],False,comp['end_date']) for comp in comps]
+    comps_short.sort(key=lambda x:x[3])
+    return comps_short
