@@ -4,7 +4,7 @@ from sqlalchemy import text, or_,and_
 import re
 from functools import wraps
 from datetime import datetime,timedelta
-from map_medlemmer import make_map
+from map_medlemmer import make_map,get_postnummer_mapping
 from read_extern import *
 from markupsafe import escape
 from WCIFManipMedlemmer import *
@@ -179,6 +179,16 @@ def update_last_competed():
 def mangler_postnummer_choose_comp():
     comps = get_comming_danish_comps()
     return render_template('upcoming_comps.html',comps=comps,user_name=session['name'],admin=True)
+
+@admin_required
+@app.route("/admin/ugyldige_postnumre")
+def ugyldige_postnumre():
+    postnumre = set(get_postnummer_mapping().postalcode)
+    users_wo_valid = []
+    for user in Users.query.all():
+        if user.postnummer and user.postnummer not in postnumre:
+            users_wo_valid.append(user)
+    return render_template('ugyldige_postnumre.html',users=users_wo_valid,user_name=session['name'],admin=True)
 
 @admin_required
 @app.route("/admin/comps/manglende_postnummer/<compid>")

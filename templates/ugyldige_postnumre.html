@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Medlemmer som har skrevet et postnummer som ikke kunne findes i vores postnummer-DB.</h1>
+  <table>
+    <tr>
+      <th>User ID</th>
+      <th>Name</th>
+      <th>WCA ID</th>
+      <th>Email</th>
+      <th>Postnummer</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.user_id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.wca_id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.postnummer }}</td>
+      <td><a class="admin_click" href="{{ url_for('edit_user_admin', userid=user.user_id) }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
