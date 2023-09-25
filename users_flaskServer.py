@@ -306,6 +306,8 @@ def edit_user_admin(userid):
                 medlem.postnummer = int(postnummer)
             else:
                 return "Du skrev et ugyldigt postnummer"
+        else:
+            medlem.postnummer = None
         medlem.modtag_mails = modtag_mails
         medlem.medlem = membership
         db.session.commit()
