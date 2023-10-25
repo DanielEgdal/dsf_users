@@ -32,7 +32,7 @@ class Admins(db.Model):
         self.user_id = user_id
 
 class External_payments(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     user = db.relationship('Users', backref=db.backref('external_payments', lazy=True))
     payment_date = db.Column(db.DateTime, nullable=False)
