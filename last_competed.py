@@ -14,10 +14,10 @@ def get_df():
     comp_path = os.path.join(script_dir, '../wca_export/WCA_export_Competitions.tsv')
     res_path = os.path.join(script_dir, '../wca_export/WCA_export_Results.tsv')
 
-    dk = (pl.read_csv(comp_path,separator='\t',quote_char='',low_memory=True)).lazy().filter(pl.col('countryId')=='Denmark')
-    res = pl.read_csv(res_path,separator='\t',quote_char='',low_memory=True).lazy()
+    dk = (pl.scan_csv(comp_path,separator='\t',quote_char='',low_memory=True)).select(["countryId", "id","endDay","endMonth","year"]).filter(pl.col('countryId')=='Denmark')
+    res = pl.scan_csv(res_path,separator='\t',quote_char='',low_memory=True).select(["competitionId", "personId"])
 
-    dk_res = dk.join(res,left_on='id',right_on='competitionId').select(["id","personId","endDay","endMonth","year"])
+    dk_res = dk.join(res,left_on='id',right_on='competitionId')
 
     dk_res = dk_res.group_by(['id','personId']).first()
 
@@ -32,14 +32,14 @@ def get_df():
         dk_res.sort("Sidste comp", descending=True)
             .group_by("personId")
             .first()
-    )
-
+    ).collect()
+    
     return dk_res
 
 def get_last_competed(df,wcaid):
     if not pd.isnull(wcaid):
         try:
-            competed = df.filter(pl.col("personId") == wcaid).select("Sidste comp").collect().to_series(0).to_list()[0]
+            competed = df.filter(pl.col("personId") == wcaid).select("Sidste comp").to_series(0).to_list()[0]
             return 200,competed
         except IndexError: # If they have a WCA ID, but haven't competed in Denmark
             return 404,'blank'
