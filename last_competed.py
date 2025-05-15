@@ -14,12 +14,12 @@ def get_df():
     comp_path = os.path.join(script_dir, '../wca_export/WCA_export_Competitions.tsv')
     res_path = os.path.join(script_dir, '../wca_export/WCA_export_Results.tsv')
 
-    dk = (pl.read_csv(comp_path,sep='\t')).lazy().filter(pl.col('countryId')=='Denmark')
-    res = pl.read_csv(res_path,sep='\t').lazy()
+    dk = (pl.read_csv(comp_path,separator='\t',quote_char='',low_memory=True)).lazy().filter(pl.col('countryId')=='Denmark')
+    res = pl.read_csv(res_path,separator='\t',quote_char='',low_memory=True).lazy()
 
     dk_res = dk.join(res,left_on='id',right_on='competitionId').select(["id","personId","personName","endDay","endMonth","year"])
 
-    dk_res = dk_res.groupby(['id','personId']).first().collect().to_pandas()
+    dk_res = dk_res.group_by(['id','personId']).first().collect().to_pandas()
 
     dk_res['Sidste comp'] = pd.to_datetime(dk_res.apply(get_date,axis=1))
     max_dates = dk_res.groupby('personId')['Sidste comp'].idxmax()

@@ -1,5 +1,5 @@
 instance/*
-secret_key.py
+secret**
 __pycache__/*
 medlemmer.sqlite3
 members_extern.tsv
@@ -8,3 +8,6 @@ maria_db.txt
 app.log
 backups/*
 postnumre-clipped-simplified.geojson
+**.pdf
+*sql
+invoices*
