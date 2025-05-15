@@ -21,8 +21,6 @@ def get_df():
 
     dk_res = dk_res.group_by(['id','personId']).first()
 
-    dk_res = dk_res.group_by(['id', 'personId']).first()
-
     dk_res = dk_res.with_columns(
         pl.concat_str(
             [pl.col("year").cast(str), pl.col("endMonth").cast(str), pl.col("endDay").cast(str)],
@@ -35,7 +33,7 @@ def get_df():
             .group_by("personId")
             .first()
     )
-    
+
     return dk_res
 
 def get_last_competed(df,wcaid):
