@@ -17,20 +17,31 @@ def get_df():
     dk = (pl.read_csv(comp_path,separator='\t',quote_char='',low_memory=True)).lazy().filter(pl.col('countryId')=='Denmark')
     res = pl.read_csv(res_path,separator='\t',quote_char='',low_memory=True).lazy()
 
-    dk_res = dk.join(res,left_on='id',right_on='competitionId').select(["id","personId","personName","endDay","endMonth","year"])
+    dk_res = dk.join(res,left_on='id',right_on='competitionId').select(["id","personId","endDay","endMonth","year"])
 
-    dk_res = dk_res.group_by(['id','personId']).first().collect().to_pandas()
+    dk_res = dk_res.group_by(['id','personId']).first()
 
-    dk_res['Sidste comp'] = pd.to_datetime(dk_res.apply(get_date,axis=1))
-    max_dates = dk_res.groupby('personId')['Sidste comp'].idxmax()
-    dk_res = dk_res.loc[max_dates]
-    dk_res = dk_res.rename(columns={'personId':'WCA ID',"personName":'Navn'})
+    dk_res = dk_res.group_by(['id', 'personId']).first()
+
+    dk_res = dk_res.with_columns(
+        pl.concat_str(
+            [pl.col("year").cast(str), pl.col("endMonth").cast(str), pl.col("endDay").cast(str)],
+            separator="-"
+        ).str.strptime(pl.Date, "%Y-%m-%d").alias("Sidste comp")
+    ).select(["Sidste comp","personId"])
+
+    dk_res = (
+        dk_res.sort("Sidste comp", descending=True)
+            .group_by("personId")
+            .first()
+    )
+    
     return dk_res
 
 def get_last_competed(df,wcaid):
     if not pd.isnull(wcaid):
         try:
-            competed = df[df['WCA ID']==wcaid]['Sidste comp'].iloc[0].to_pydatetime()
+            competed = df.filter(pl.col("personId") == wcaid).select("Sidste comp").collect().to_series(0).to_list()[0]
             return 200,competed
         except IndexError: # If they have a WCA ID, but haven't competed in Denmark
             return 404,'blank'
